@@ -25,3 +25,5 @@
 	- git config
 	    - git config --global user.email "gillesbodson@live.be"
         - https://help.github.com/articles/setting-your-email-in-git/
+
+    - if pycharm doesn't seem to remember github password, look at: https://www.jetbrains.com/help/pycharm/2016.3/passwords.html
