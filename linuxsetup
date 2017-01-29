@@ -7,3 +7,7 @@
     - append line iin the end of:
         - /home/user/.bashrc for user
         - /root/.bashrc for root
+
+- create aliases
+    - add libne in bashrc
+    - look for alias in the file and do something similar
