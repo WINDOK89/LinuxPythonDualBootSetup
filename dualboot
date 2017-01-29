@@ -1,0 +1,61 @@
+- modify in bios
+set password for authentification: Bodgi
+disable secure boot
+let uefi (strang behavior if intall in legacy mode
+
+- follow the step in the link:
+http://www.everydaylinuxuser.com/2015/11/how-to-install-ubuntu-linux-alongside.html
+
+- at the end of the installation, there won't be an option to continue testing, only reboot is possible
+
+- to get back in test mode, boot again on the key and enter test mode to follow the end of the procedure
+
+- might not be mandatory but we can try boot-repair tool method 2:
+https://help.ubuntu.com/community/Boot-Repair
+
+- if the computer start up still on windows:
+in bios:
+	set boot passwd : Bodgi
+	option below will become available
+	set some efi file as trusted
+	go to ubuntu and make two settings (grubs and shimx) give them name
+	reboot laptop and press f12
+	now the two trusted file are available, one of them will start ubuntu
+	back there use efi... cmd to put one of the 2 in front but it won't work
+
+- back in bios
+	now in the boot option we can put the grub efi file in front
+	now at start we got the grub choice to do between ubuntu and windows
+
+##version 2##
+
+- shrink a volume (70Gb is enough) and let it unallocated
+- format it (new volume) and than delete it so it is unallocatred again (this make sure there is nothing left on it)
+- shutdown, connect the boot key
+- enter bios
+	- "F12 BOOT Menu" ==> "enabled"
+	- "set supervision password" ==> "Bodgi"
+	- "secure boot" ==> "disabled"
+
+- reboot laptop, press f12, start install ubuntu
+- check "download update while installing" and "install third party...."
+- Some problem mights occur
+	- installer crash
+	- try:
+		- format the usb and reinstall the image 
+		- change the image with another distrib
+		- don't select a network for installation
+		- don't select "update" and "third party" at installatoin
+		- some of tehse should work
+
+- after install the system keep booting on win64
+- in bios:
+	- set "user passwd" to "Bodgi"
+	- enable secure boot
+	- use "select an uefi file as treusted"
+	- go until ubuntu/..grub.., select it, give him a name
+	- let or not "secure boot" enabled, it doesn't seems to have an effect
+	- reboot
+	- bios
+	- now in the boot list, the grub file name we give is available, put it up
+	- now when the computer starts, it gives the choice between ubuntu and windows

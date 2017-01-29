@@ -1,0 +1,27 @@
+- unicurses
+	- google download unicurses
+	- unpack
+	- inside Unicurses folder, do "python3.5 setup.py install"
+
+- pycharm
+	- download from net
+	- ubnpack
+	- in folder unpacked run "
+
+- pip install
+	- apt-get install python3-pip
+	- pip3 install ....
+
+- pycharm install
+	- http://ubuntuhandbook.org/index.php/2016/07/latest-pycharm-ubuntu-16-04-ppa/
+	- or
+		- download pycharm from websit
+		- https://www.jetbrains.com/pycharm-edu/quickstart/installation.html#linux
+	- install git
+		- sudo apt-get install git-core
+	- create launcher
+		- see doc typs linux
+	- start pycharm: /home/bodgi/download/pycharm....../bin/pycharm.sh
+	- git config
+	    - git config --global user.email "gillesbodson@live.be"
+        - https://help.github.com/articles/setting-your-email-in-git/

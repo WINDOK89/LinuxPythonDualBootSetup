@@ -1,0 +1,9 @@
+- change keyboard layout
+	- setxkbmap -layout be
+	- setxkbmap -layout fr
+
+- change color terminal
+    - https://www.cyberciti.biz/faq/bash-shell-change-the-color-of-my-shell-prompt-under-linux-or-unix/
+    - append line iin the end of:
+        - /home/user/.bashrc for user
+        - /root/.bashrc for root

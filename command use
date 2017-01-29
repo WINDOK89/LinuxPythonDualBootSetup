@@ -1,0 +1,181 @@
+'su -l' or 'su' --> connect in root blabla
+'ls' --> list all files and folder in actual directory
+'pwd' --> give actual dircetory
+'date' --> give date and time
+'ls -a'= 'ls --all' --> list all folder and file even the hidden ones
+'history' --> give the historic of all command entered
+ctrl+R --> search to get old command than enter to execute it
+ctrl+l = 'clear' --> erase the all content of the terminal
+ctrl+d = 'exit' --> close terminal
+shift+pgup --> go up in the terminal
+shift+pgdown --> go down in the terminal
+'which cmd' --> show the path to the cmd programme (each cmd has one, usually the programme file has no extension
+'ls -l' --> print more details
+'ls -l -h' --> print detail with human readable size 
+'ls -lht' --> print detail with readabme size and by date (-t)
+'cd /' --> retour à la racine
+'ls -F' --> list file with detail about the file (folder / file . shortcut @
+'cd ~' or 'cd' --> get into /home/bodgi
+'cd word' + tab + tab --> give all file or directory starting with l
+'du -h' --> give total size of directory and detail of sub folder with human readable size
+'du -ah' --> give size of folder and size of files
+'du -s' --> just total
+'cat'+filename --> show content of file (interrest in /var/log/syslog for troubleshooting
+'cat -n'--> show file in terminal with line number
+'less' --> see section
+'head -n x'+filename --> print x first lines of filename
+'tail -n x'+filename --> printf x last lines of file name
+'tail -n -f' + filename --> print update last lines of file name
+'tail -f -s 3"+filename --> show changes with update every 3 sec
+"ctrl+c" --> stop processing command
+'touch filename' --> create file name in the directory
+'touch "file name"' --> if space is requested
+'mkdir foldername' --> create folder foldername
+'mkdir -p folder1/folder2/folder3' --> create subfolder 2 and 3
+'mkdir' or 'touch' 'f1 f2' --> create both folder or file
+'cp file filecpy' --> create a copy of file in the actual directory with name filecpy
+'cp file folder' --> if folder exit, copy file in folder with same name else it create a copy of file named folder
+'cp *.ext folder' --> copy amm the extension ext files in folder
+'cp -R folder foldercpy' --> to copy/move folder as foldercpy in same directory
+'mv' --> use as cp but here only move no copy
+'mv x y' --> rename x as y
+'rm' --> see section
+'rm -r folder/*' --> destroy all folderf in folder
+'rm folder/*' --> remove all files in folder
+'rm folder/*' --> remove all files and folder in folder
+'ls *.odt' --> list all odt file
+'ln' --> see section shortcut
+'ls -i' --> show the inode number of each file and folder
+'ls ./*' --> show everything in folder and subfolder
+'ls -l */*.odt' --> any subfolfder .odt file will be shown
+'ls -R' --> shows everything
+'find -name *.odt' --> look for all odt file in subdirectory but it bugs in current folder
+'grep' --> other way to find files
+
+//user management
+'sudo' for temporary access
+'sudo' don't work in debian and work in raspbian
+'sudo su' or 'su -' to keep the root mode active
+'su -' give access to more programm then 'su' also it place us directly in personnal folder root
+/root is not accessible from user but only root
+'adduser name' --> create user name and folder, works only in root, tap password and personal info
+to connect with cmd, connect root, 'login name', enter password.
+'passwd' to change password when connected with that user
+'exit' to logout
+'passwd name' in root mode --> change user name password
+'passwd' without additionnal info change the actual user password including root password
+'deluser name' --> erase account name
+'deluser --remove-home name' --> erase account and home folder
+'addgroup' --> create a new group
+'usermod -l new old' --> change user name from old to new
+'usermod -g group user' --> put user in group group
+'delgroup' --> destroy group
+'usermod -G group1,group2,group3 user' --> to set user in several group
+'usermod -aG group1,group2,group3 user' --> to set user in several group and also staying in the actual group
+
+//nano text editor
+'nano' --> start nano GNU
+see section site du zero for use
+ctrl+w to start search -> next result ctrl+w+enter
+
+
+
+//file property management
+'chown user file' --> owner of file is changed to user
+'chgrp group file' --> file owner group become group
+'chown  user:group file' --> file owner=>user file group=>group
+'chown -R user:group /home/user_x/' --> change user and group owner of all files of userx
+
+//file access management
+from 'ls -l' first column give rights
+example: drwxrwxrwx => d(folder)r(owner can read)w(owner can write)x(owner can execute or enter folder)r(ownergroup can read)w(ownergroup can write)x(ownergroup can execute)r(other can read)w(other can write)x(other can execute)
+	 -rwxr----- => -(file)rwx(owner can do everything)r--(other member of group can read)---(other group can't do nothing)
+	 lr-------- => l(link) r--(owner can read but nothing else exept root can do anything)
+for 'chmod', 4 means read, 2 write, 1 execute. add the 3 number per triplet
+example to tell rwxrw-r-- => 764
+'chmod 764 file' --> set accesrights as rwxrw-r--
+other way to work: u=user, g=group, o=other, +=give rights, -=retrieve rights,==same rights
+'chmod go+r, o-w file' --> add reading to group and other, retrieve editing to other
+'chmod +x file' --> give execution to everybody
+'chmod -R 700 /home/user' --> give full rights to all files of user but nothing can be done by other people of group or others
+
+
+
+//folder and file info 'ls -il'
+inode_number/nbroflink if file or nbroffile if folder
+
+//remove file 'rm filename or foldername'
+-i ask confirmation
+-f destroy without warning
+-v give detail of action
+-r before folder name if folder has to be destroyedls 
+
+//directory
+We can always enter filename or relative_path/filename or asbolute_path/filename
+
+//shortcut
+file management: the "inode" is the content somewhere on the drive, the name link to inode
+Physical or symbolic link
+physical link is creating a second name linked to the same inode=content
+'ln file1 file2' --> create a second name linked to the same content
+symbolic link is more like shortcut
+the physical link link the name with an inode
+in symbolic, the name created is linked to another name
+'ls -l' shows file2 -> file2
+physical link can't exist on folder, symbolic can
+'ln -s folder file' --> create a file shortcut to the folder
+carreful to create a symbolic link, it is better to entre abolute address for the file to link
+'ln -s /home....file linkname' --> create a link of file in the actual directory, this link can be moved
+'ln -s file /home....link' --> create broken link
+
+ 
+
+//less
+'less'+filename --> show file but stop at the end of terminal
+"space" print following window
+"enter" print following line or down arrow
+"q" stop reading
+pgup and pgdn to go forward or backward
+"h" show help
+"=" SHOW line number and detail
+"/+word" highligh the word in the text
+	"n" next occurence
+	"N" previous occurence
+
+//output ls
+in blue are the folder, in while are the files, in clear blue are the shortcut
+
+
+//config console
+File/open tab --> open a new terminal tab
+
+//soft putty
+permet d'accéder à distance à la console d'un linux server or pc
+
+//topic apt-get
+"apt-get" start a software of software management it gives also the help line
+
+//read invit
+"$" tells we have user rights
+"#" tell we have root right
+
+//building command
+-with short param
+'command -p -p -p' one letter param
+'command -p --param -p several letter param
+'command -p affectation -p affecttation'
+'command -pauH' combined
+
+//find partial command
+example: 'da'+tab+tab give the two command having da inside (dash and date)
+
+//organisation file
+"/" = root file
+no drive but one big file
+data or cd is seen as a file in linux
+
+//print cmd result in a file
+at the end of the cmd, add '>name.txt' it create a text file with the result
+
+// file with space in it
+in the command the file "file name" must be written "file\ name"
