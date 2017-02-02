@@ -35,3 +35,9 @@
     - pip3 install scipy
     - pip3 install matplotlib
     - apt-get install python3-tk
+
+- pyqt
+    - apt-get install python3-pyqt4
+
+- postgres
+    - https://www.fullstackpython.com/blog/postgresql-python-3-psycopg2-ubuntu-1604.html
