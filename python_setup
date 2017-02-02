@@ -27,3 +27,10 @@
         - https://help.github.com/articles/setting-your-email-in-git/
 
     - if pycharm doesn't seem to remember github password, look at: https://www.jetbrains.com/help/pycharm/2016.3/passwords.html
+
+
+- matplotlib
+    - pip3 install numpy
+    - pip3 install Pillow
+    - pip3 install scipy
+    - pip3 install matplotlib
