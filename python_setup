@@ -44,3 +44,6 @@
 
 - pgadmin
     - http://queirozf.com/entries/installing-postgresql-and-pgadmin-on-ubuntu
+    
+- some trick
+    - if auto completion doesn't work, just create a new file, import pyqt4 and execute
