@@ -38,6 +38,7 @@
 
 - pyqt
     - apt-get install python3-pyqt4
+    - apt-get install pyqt4-dev-tools qt4-designer
 
 - postgres
     - https://www.fullstackpython.com/blog/postgresql-python-3-psycopg2-ubuntu-1604.html
