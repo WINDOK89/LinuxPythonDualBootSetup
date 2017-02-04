@@ -38,6 +38,8 @@
 
 - pyqt
     - apt-get install python3-pyqt4
+    - designer-qt4 
+
     - apt-get install pyqt4-dev-tools qt4-designer
 
 - postgres
