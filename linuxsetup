@@ -11,3 +11,6 @@
 - create aliases
     - add libne in bashrc
     - look for alias in the file and do something similar
+    
+- set up ip rpi on site
+	- http://www.circuitbasics.com/how-to-set-up-a-static-ip-on-the-raspberry-pi/
