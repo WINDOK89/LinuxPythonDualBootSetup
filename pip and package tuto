@@ -1,0 +1,15 @@
+#installation python
+download and install python 3.4
+
+#installation pycharm
+download and inwtall pycharm
+
+#matplotlib
+4 packages to install, use of pip
+    - open cmd
+    - cd ../../........./C/Python34/SCRIPT
+    - pip install "name of package"
+    (a problem might occur and it give you the way to upgrade pip)
+
+#postgres
+just an installation file

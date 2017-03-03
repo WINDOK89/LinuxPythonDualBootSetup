@@ -1,0 +1,34 @@
+to setup default ip with dns server:
+
+1. interfaces
+nano /etc/network/interfaces
+
+for rochereau:
+
+auto lo
+iface lo inet loopback
+
+iface eth0 inet static
+address 10.176.149.201
+netmask 255.255.255.0
+gateway 10.176.149.254
+
+auto wlan0
+allow-hotplug wlan0
+iface wlan0 inet manual
+wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+
+auto wlan1
+allow-hotplug wlan1
+iface wlan1 inet manual
+wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+
+2.dhcpcd
+nano /etc/dhcpcd.conf
+
+add at the end (rochereau example)
+interface eth0
+static ip_address=10.176.149.201
+static routers=10.176.149.254
+static domain_name_servers=8.8.8.8
+static domain_search=

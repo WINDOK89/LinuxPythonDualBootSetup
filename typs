@@ -1,0 +1,182 @@
+//set root password
+'sudo passwd' change it, validate and that's it
+
+when connected on the local network, 192.168.1.6 is acessible with port 22
+
+//set static ip
+config file in /etc/network/interfaces
+
+//to set up server, see www.raspbian-france.fr/installer-serveur-web-raspberry/
+passwd sql, root/Bodgi2011
+
+//pass phpmyadmin
+root
+Bodgi2011
+
+//setup raspberry as server and test it
+
+1. set ip static of eth0 in file /etc/network/interfaces
+--> write the following line instead of eth0 settings
+iface eth0 inet static
+address 169.254.79.159
+netmask 255.255.255.0
+gateway 192.168.1.1
+--> reboot
+Now the raspberry can be accessed by putty on port 22
+
+2. Installation apache2
+--> get latest update
+sudo aptitude update
+sudo aptitude upgrade
+--> install apapche2
+sudo aptitude install apache2
+--> test apache 2
+"http://127.0.0.1" in WB
+The above address point on folder /var/www/
+"http://127.0.0.1/test.html" print file test.html
+
+3. installation php
+--> install
+sudo aptitude install php5
+--> test php
+create php file in www folder with the following line
+<?php echo phpinfo(); ?>
+start WB "http://127.0.0.1/phpname.php
+
+4. installation sql
+--> install
+sudo aptitude install mysql-server php5-mysql
+put password (same as wso)
+--> test
+in cmd: mysql --user=root --password=mypass
+show show welcome on sql
+
+5. install phpmyadmin
+--> install
+sudo aptitude install phpmyadmin
+--> modify config: in /etc/apache2/apache2.conf put the line
+Include /etc/phpmyadmin/apache.conf
+--> test
+http://127.0.0.1/phpmyadmin
+
+6. carreful with accessrights
+--> set the folder of the project like "WSO":
+chmod -R 777 /var/www/WSO
+
+7. carrefull with password database
+
+8. start/stop service
+--> apache2,vsftpd,sql,php5 = XXX
+service XXX restart (stop or start)
+
+9. set up ftp
+--> installation vsftpd
+apt-get install vsftpd
+--> make some config 
+nano /etc/vsftpd.conf
+change: anonymous_enable=YES to anonymous_enable=NO
+change: #local_enable=YES to local_enable=YES
+change: #write_enable=YES to write_enable=YES
+(migth not be neccessary) add to the end of file: force_dot_files=YES
+--> restart service
+service vsftpd restart
+--> connect from total commander: 
+use ip of raspberry, remove anonymous connnnection
+
+// use of SQL command line
+mysql -u root -p --> connect to mysql, enter sql shell
+\h --> show help in sql shell
+cmd: mysqlshow -u root -p --> show all databases
+cmd: mysqlshow -u root -p databasename --> show all table from databasename
+cmd: mysqlshow -u root -p databasename tablename --> show structure of table name in databasename
+cmd: mysqlshow -u root -ppassword ...... --> will not ask the password
+sqlshell: use databasename --> select databasename
+sqlshell: SHOW TABLES; --> display all table of used database
+sqlshell: DROP TABLE name;
+SQLSHELL tuto: www.tutorialspoint.com/sql/
+!!! cannot drop an imported table
+cmd: import table: mysql -u root -pBodgi2011 dbname < /path/name.sql --> import table name.sql in db dbname
+
+//installation tight vnc
+apt-get install tightvncserver
+--> to start
+vncserver :1
+pass: Bodgi201
+when gui doesn't start, go erase /home/pi/.Xauthority
+
+//install library use gpio
+--> git clone git://git.drogon.net/wiringPi
+--> cd wiringPi (folder in home/pi)
+--> ./build
+--> usefull cmd
+	- gpio readall: show table with gpio status
+	- more explanation on bash file and python on irz.fr/introduction-au-gpio-du-raspberry-pi-2/
+
+//setup home server (only apache response set)
+1. set ip raspberry static on router
+	- go to 'advanced settings/network interface'
+	- click lan-bridge
+	- click ip address distribution
+	- click connection list
+	- click  edit "raspberry pi" settings
+	- check static lease
+	- all info on http://www.sky-future.net/2013/05/astuce-comment-fixer-une-adresse-ip-locale-b-box2/
+
+2. port forward
+	- the router has an internal ip: 192.168.1.1
+	- the router give internal ip to raspberry as 192.168.1.7
+	- the router has also an external ip as X.Y.Z.A
+	- the point is to redirect the port so when we tap in internet X.Y.Z.A:'port number', it direct the request to raspberry
+	- the port number must be between 3000 and 8089 (not exactly that)
+	- each communication potocol have a port defined on raspberry
+	- the first step is to set raspberry so apache will respond on port 7777 (example)
+		- sudo nano /etc/apache2/ports.conf
+			- Now change the entry for NameVirtualHost to *:8080 and the entry for Listen to 8080. Save the changes and exit.
+		- sudo nano /etc/apache2/sites-enabled/000-default
+			- Now edit the file 000-default and change the entry for VirtualHost to *:8080. Save the changes and exit.
+		- sudo /etc/init.d/apache2 reload ==> restart apache2 with new setting. apache won't answer anymore at X.Y.Z.A but it will on X.Y.Z.A:7777
+	- number 1024 till 49151 to avoid conflict
+	- now we need to tell the router to forward external demand on port 7777 to raspberry
+		- the external IP of router such as W.C.V.B can be accessed by http if router is correctly configured firewall
+		- so the point for raspberry is when external network browser do http://W.C.V.B:7777 the request is forward to raspberry apache service
+		- on bbox2 go to advanced settings/lan servers
+		- create a new entry
+			- name rapberry
+			- activated: yes (put no to disable the service if it is not safe
+			- Public start port:7777
+			- Public end port: 7777
+			- lan start port: 7777
+			- local ip: 192.168.1.7 (static ip defined)
+			- attention, once the http com is listenning on port 7777, to acces phpmyadmin we need to put http://127.0.0.1:7777/phpMyAdmin
+	- now when connected to another network, tap W.C.V.B:7777  will link to raspberry
+	- next step might be to enable shh connection with putty
+		- shh raspberry answer on port 22 (raspberry side)
+		- to set it up go in router page 192.168.1.1
+			- advanced settings/lan server
+			- new entry
+				- name:raspberru shh
+				- activated: yes (put no for safety when not needed
+				- protocol: tcp
+				- public start port: 7778 (just as example)
+				- public end port: 7778 
+				- lan start port: 22
+				- ip: 192.168.1.7
+			- in putty
+				- shh, W.C.V.B, port 7778
+				- it will work
+	- it might be better to change the raspberry loccal shh port (lan start port in configuration)
+		- sudo nano //etc/ssh/sshd_config
+		- more safety stuff like disable shh root login at http://raspi.com/projects/ftp/
+		- 
+	
+				
+//mount usb stick
+	- usb file stick can be found in /dev under name sda1 or sda2 or sba1 or sba2
+	- to mount the media somewhere do mount -t vfat /dev/sda1 /media/(folder name you created)
+	- to unmount: umount /media/(folder name you created)
+
+//find caracter chaine
+grep -ril 'chaine' folder
+
+//generate key for putty
+https://www.digitalocean.com/community/tutorials/how-to-create-ssh-keys-with-putty-to-connect-to-a-vps
