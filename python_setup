@@ -36,6 +36,10 @@
     - pip3 install matplotlib
     - sudo apt-get install gtk2.0
     - apt-get install python3-tk
+    - maybe matplotlib will make shit with gtk, in that cas
+    	- change backend
+	- in /home/pi/.config/matplotlib create matplotlibrc
+	- in the file put backend : qt4agg
 
 - pyqt
     - apt-get install python3-pyqt4
