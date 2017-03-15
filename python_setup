@@ -50,6 +50,8 @@
 
 - postgres
     - https://www.fullstackpython.com/blog/postgresql-python-3-psycopg2-ubuntu-1604.html
+    - allow remote connection to db:
+    	- http://blog.bigbinary.com/2016/01/23/configure-postgresql-to-allow-remote-connection.html
 
 - pgadmin
     - http://queirozf.com/entries/installing-postgresql-and-pgadmin-on-ubuntu
