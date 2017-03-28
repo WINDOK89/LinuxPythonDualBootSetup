@@ -61,3 +61,13 @@
 
 - module  hyper for http2
 	- pip3 install hyper
+	
+- distribute packages
+	- cx_freeze
+	- pip3 install cx_Freeze
+	- in linux works:
+		- use cxfreeze-quickstart
+		python3.5 setup.py build
+		- ./appname in ./build/exe...../
+		- for debug it is quite crazy
+	- in windows crazy
