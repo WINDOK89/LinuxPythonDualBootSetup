@@ -1,1 +1,23 @@
 - select download update at install it will be better
+- tightvncserver might be doing hell shit (blank screen no control after connection)
+  - check /home/bodgi/.vnc/xstartup:
+
+#!/bin/sh
+
+xrdb $HOME/.Xresources
+xsetroot -solid grey
+x-terminal-emulator -geometry 80x24+10+10 -ls -title "$VNCDESKTOP Desktop" &
+x-window-manager &
+# Fix to make GNOME work
+export XKL_XMODMAP_DISABLE=1
+/etc/X11/Xsession
+
+  - create /home/bodgi/.xsession
+  
+#!/bin/sh
+/usr/bin/lxsession -s Lubuntu -e LXDE
+
+  - create /home/bodgi/.xsessionrc
+  
+xsetroot -cursor_name left_ptr&
+
