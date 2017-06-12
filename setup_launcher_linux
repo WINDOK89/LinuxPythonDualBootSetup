@@ -1,0 +1,23 @@
+- this is crazy stuff
+- this small tutorial shows how to turn a python file into a launcher
+
+1. specify the python version executer
+  - at the first line, add "#!/usr/bin/python3.x"
+  
+2. make the file executable
+  - take admin rights
+  - go to the folder: "cd /......./myfile.py"
+  - enter "chmod +x myfile.py"
+  - to be sure its ok, open a terminal, go to the folder file and enter "./myfile.py" --> the programm should run now
+  
+3. create a .desktop file
+  - take admin rights
+  - go to "cd /usr/share/applications
+  - create the file "nano myfile.desktop"
+  - put the following lines in the file:
+    [Desktop Entry]
+    Type=Application
+    Name=myfile
+    Path=/......./myfolder   --> very important to setup the temrinal defualt location
+    Exec=myterminalcmd -e ./myfile.py    --> myterminalcmd is "lxterminal" in lubuntu, xfce4-terminal in kde, ....
+  - Now copy the .desktop file on the desktop and try it, it should work.
