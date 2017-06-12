@@ -20,5 +20,5 @@
     Name=myfile
     Icon=PathToIcon+/myicon.jpg
     Path=/......./myfolder   --> very important to setup the temrinal defualt location
-    Exec=myterminalcmd -e ./myfile.py    --> myterminalcmd is "lxterminal" in lubuntu, xfce4-terminal in kde, ....
+    Exec=myterminalcmd --geometry=30x30 --title="mytitlewindow" -e ./myfile.py    --> myterminalcmd is "lxterminal" in lubuntu, xfce4-terminal in kde, ....
   - Now copy the .desktop file on the desktop and try it, it should work.
