@@ -1,0 +1,135 @@
+Time handling is kind of awfull in programming with timezone, this document is explaning some stuff about that:
+
+- TIMESTAMP
+
+it is just a number of millisec after 1971......., it has nothing to do with timezone.
+so in python we have:
+time.mktime((some_datetime.timetuple())) will return a timestamp.
+This timestamp will be different depending on the local settings of the computer executing the command
+
+- UTC 
+
+can be express as string or datetime or timestamp.
+This is the universal time. 
+So it is not a timezone, (no summer and winter time)
+
+- GMT
+
+This is the representation of timezone, as example:
+GMT0 is london
+  =UTC in winter
+  =UTC+1 in summer
+GMT1 is brussels
+  =UTC+1 in winter
+  =UTC+2 in summer
+  
+- python datetime.strptime()
+
+Convert a string into datetime object according to a certain format.
+It doesn't take care of the timezone
+
+- python datetime.timetuple()
+
+convert datetime object in timetuple object.
+print the result of this and you ll see a parameter "tm_isdst" which tell us -1 if GMT, -2 if GMT2
+"tm_isdst" doesn't change no matter summertime or winter time
+
+example:
+>> datetime.datetime.strptime("2015-01-01","%Y-%m-%d").timetuple()  # winter time
+time.struct_time(tm_year=2015, tm_mon=1, tm_mday=1, tm_hour=0, tm_min=0, tm_sec=0, tm_wday=3, tm_yday=1, tm_isdst=-1)
+>>> datetime.datetime.strptime("2015-05-01","%Y-%m-%d").timetuple() #summer time
+time.struct_time(tm_year=2015, tm_mon=5, tm_mday=1, tm_hour=0, tm_min=0, tm_sec=0, tm_wday=4, tm_yday=121, tm_isdst=-1)
+
+- python datetime.utctimetuple()
+
+convert datetime object in timetuple object.
+print the result of this and you ll see a parameter "tm_isdst" which tell us always 0
+"tm_isdst" doesn't change no matter summertime or winter time
+this function is to apply on datetime not taking 
+
+example:
+>> datetime.datetime.strptime("2015-01-01","%Y-%m-%d").timetuple()  # winter time
+time.struct_time(tm_year=2015, tm_mon=1, tm_mday=1, tm_hour=0, tm_min=0, tm_sec=0, tm_wday=3, tm_yday=1, tm_isdst=0)
+>>> datetime.datetime.strptime("2015-05-01","%Y-%m-%d").timetuple() #summer time
+time.struct_time(tm_year=2015, tm_mon=5, tm_mday=1, tm_hour=0, tm_min=0, tm_sec=0, tm_wday=4, tm_yday=121, tm_isdst=0)
+
+========== so until now, we still have an str(datetime) giving "2015-01-01 00:00:00" ad "2015-05-01 00:00:00" ===========
+========== the implication of using datetime.timetuple() or datetime.utctimetuple() will be seen when be visible when converting to timestamp with time.mktime()
+
+- python time.mktime()
+
+convert timetuple to timestamp
+There the "tm_isdst" is important
+
+example: from a pc set in GMT1:
+>>> time.mktime(datetime.datetime.strptime("2015-05-01","%Y-%m-%d").timetuple())
+1430431200.0
+>>> time.mktime(datetime.datetime.strptime("2015-05-01","%Y-%m-%d").utctimetuple())
+1430434800.0
+--> so in summertime, the same date provide differeny timestamp depending on utctimetuple and timetuple
+--> so utctimetuple provides a timestamp increased of 3600 seconds (1h, summertime differnevce)
+--> so utctimetuple doesn't provide utc time, it just gives an increased time of 1hour when we pass in summertime.
+--> it means that when the data source isn't taking into account summertime, we need to use utctimetuple to adjust the value in lake
+--> in wec master, we needed utctimetuple because the turbine controller don't take into account summertime (we dont jump an hour)
+--> if the data source is taking into account the summertime, we use timetuple
+--> if we are in winter time, utctimetuple provides the same answer than timetuple:
+>>> time.mktime(datetime.datetime.strptime("2015-01-01","%Y-%m-%d").utctimetuple())
+1420066800.0
+>>> time.mktime(datetime.datetime.strptime("2015-01-01","%Y-%m-%d").timetuple())
+1420066800.0
+--> the same line done on a computer with different localtime zone will provide different timestamp
+--> below the same lines done on a computer UTC set:
+>>> time.mktime(datetime.datetime.strptime("2015-01-01","%Y-%m-%d").timetuple())
+1420070400.0
+>>> time.mktime(datetime.datetime.strptime("2015-01-01","%Y-%m-%d").utctimetuple())
+1420070400.0
+>>> time.mktime(datetime.datetime.strptime("2015-05-01","%Y-%m-%d").timetuple())
+1430438400.0
+>>> time.mktime(datetime.datetime.strptime("2015-05-01","%Y-%m-%d").utctimetuple())
+1430438400.0
+
+--> so for the same string time, an UTC laptop will give a bigger timestamp
+  --> this is normal since an x time in UTC is actually x+1h in GMT1 winter time so timestamp X in GMT1 is lower.
+  
+- IN PRACTICAL
+
+--> utc to string from pylake driver and wintell will return a date according to the laptop lacaltime
+--> So when we insert timestamp in lake, we have to insert it considering the inserter pc local time.
+--> if we insert "15H00" from an UTC laptop, the reader GMT1 will see (16h) or (17h) if we are in summertime.
+
+--case1--
+data source is GMT1 but not taking into account summertime, data collector is GMT1
+--> in wintertime, 15h on source = 15h on real
+--> in summertime, 15h on source = 16h on real
+--> if we want to see the real time in wintell, we have to apply utctimestamp so the timestamps inserted in lake is actually 3600 sec bigger 
+--> better if collector has GMT1 also
+
+--case2--
+data source is GMT1 but not taking into account summertime, data collector is GMT1
+--> in wintertime, 15h on source = 15h on real 
+--> in summertime, 15h on source = 15h on real 
+--> if we want to see the real time in wintell, we have to apply timestamp so the timestamps inserted in lake is ok  
+--> better if collector has GMT1 also
+
+--case3--
+data source is GMT1 but not taking into account summertime, data collector is UTC
+--> see tzinfo in datetime and example to convert
+--> 15h in winter is 15h in real but become 16h in wintell (if localtime of browser is GMT1)
+--> 15h in summer is 16 in real and become 17h in wintell (if localtime of browser is GMT1)
+--> we have to remove 3600 at all time and apply utctimestamp
+
+--case4--
+data source is GMT1 but taking into account summertime, data collector is UTC
+--> see tzinfo in datetime and example to convert
+--> 15h in winter is 15h in real but become 16h in wintell (if localtime of browser is GMT1)
+--> 15h in summer is 15h in real but become 16h in wintell (if localtime of browser is GMT1)
+--> we have to remove 3600 at all time and apply timestamp
+
+--case jtekt--
+--> supposly source is GMT1 not taking into account summer/winter
+--> Source has been put in GMT1 so normally only apply utctimetuple is ok.
+
+--> we were worrying because we saw in show process 3H35 on the UTC linux master instead of 5H35 in GMT1 laptop but the process still didn't took new results
+--> The string to utc fct was converting 5H35 on GMT1 laptop in summertime with timetuple so it lead to a 2h difference
+
+
