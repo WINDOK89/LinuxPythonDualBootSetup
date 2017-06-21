@@ -1,5 +1,10 @@
 Time handling is kind of awfull in programming with timezone, this document is explaning some stuff about that:
 
+- NOW
+
+datetime.datetime.utcnow() returns datetime object of utc
+datetime.datetime.now() return according to locale settings
+
 - TIMESTAMP
 
 it is just a number of millisec after 1971......., it has nothing to do with timezone.
