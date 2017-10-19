@@ -1,0 +1,15 @@
+cx_freeze windows
+- install via pip
+- take cx_freeze-quickstart and put it in the folder of the python project to convert
+- Do in cmd:
+  - cd to the folder project
+  - C:\pythonx.y\python.exe cxFreeze-quickstart
+  - a setup.py file is created and is proposed to be execute, try it
+  - if not working, import package will be requested. It has to be added manually in the setup.py file
+  - to exec setup.py: C:\pythonx.y\python.exe setup.py build
+  
+- with unicurses, 4 files need to be added in the build folder:
+  - curses.h
+  - panel.h
+  - pdcurses.dll
+  - pdcurses.lib
