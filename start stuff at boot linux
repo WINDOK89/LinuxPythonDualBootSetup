@@ -1,1 +1,8 @@
+- vnc server:
+  - go into "raspi-config" and choose option 3 than choose "start on desktop".
+  - after pi reboot, a vncserver desktop will be available on port 5901
 
+- run cmd at linux boot gui app
+  - go into "raspi-config" and choose option 3 than choose "start on desktop".
+  - not that good: https://www.google.be/search?source=hp&ei=p9JhWoXOJoO5UYONl9AM&q=run+gui+at+startup+raspberry+pi&oq=run+gui+at+startup+raspberry+pi&gs_l=psy-ab.3...4194.23809.0.24279.42.32.7.2.3.0.98.2334.30.31.0....0...1c.1.64.psy-ab..2.32.1885.6..0j46j35i39k1j0i131k1j0i67k1j0i3k1j0i203k1j0i46k1j0i22i30k1j0i13i5i30k1j0i13k1.97.Yofy55HYlBA#kpvalbx=1
+  - seems better: https://wiki.lxde.org/en/LXSession#Autostarted_applications_using_lxsession
