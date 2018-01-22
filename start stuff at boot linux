@@ -20,3 +20,10 @@
     - generate a .desktop file somewhere launching the app you want.
     - in the autostart file put: @xdg-open MyPathToLauncher/Mylauncger
     - reboot and see if it works.
+    
+- WORKING METHOD WITH XFCE DESKTOP LIKE MACHINE 14
+  - first know that in lxde the command lxterminal open a terminal but in xfce it is xfce4-terminal
+  - go to application/settings/settings manager
+  - click on session and startup
+  - go to application autostart and click add
+  - the command can be anything in out case it is something like: xfce4-terminal --working-directory=__MYDIR__ --title="__MYTITLE__" --geometry=150x50 -e ./__MYPYFILE__ 
