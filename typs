@@ -172,7 +172,7 @@ when gui doesn't start, go erase /home/pi/.Xauthority
 	- it might be better to change the raspberry loccal shh port (lan start port in configuration)
 		- sudo nano //etc/ssh/sshd_config
 		- more safety stuff like disable shh root login at http://raspi.com/projects/ftp/
-		- 
+	- for vnc config, if local vnc server is :1, put in router lan port 5901
 	
 				
 //mount usb stick
