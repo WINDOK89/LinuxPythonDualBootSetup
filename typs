@@ -123,6 +123,11 @@ when gui doesn't start, go erase /home/pi/.Xauthority
 	- all info on http://www.sky-future.net/2013/05/astuce-comment-fixer-une-adresse-ip-locale-b-box2/
 
 2. port forward
+	- carrefull firewall router bbox2 needs to be given a DNS server 8.8.8.8 (this wasn't the case first time i've tried)
+		- advanced settings/route/dns & default gateway configuration
+		- put primary dns 8.8.8.8
+		- put "enabled"
+		- apply
 	- the router has an internal ip: 192.168.1.1
 	- the router give internal ip to raspberry as 192.168.1.7
 	- the router has also an external ip as X.Y.Z.A
