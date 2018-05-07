@@ -1,2 +1,4 @@
 in /home/pi/.vnc create "config" file
 insisdee put -geometry 1200x800
+
+alternatively, you can try raspi=config/advanced option/ resolution
